@@ -1,5 +1,7 @@
 module "eks" {
-  source  = "../k8s-module"
+  #source  = "../k8s-module"
+  source = "git::https://github.com/KonstantinosPapazis/k8s-module.git"
+  #source = "git::https://github.com/KonstantinosPapazis/k8s-module.git?ref=v1.0.0"
   #version = "~> 20.0"
 
   cluster_name    = "my-cluster"
