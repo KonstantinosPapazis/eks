@@ -1,3 +1,32 @@
+resource "null_resource" "wait_for_cluster" {
+  depends_on = [module.eks]
+}
+
+data "aws_eks_cluster" "eks_cluster" {
+  depends_on = [null_resource.wait_for_cluster]
+  name       = module.eks.cluster_name
+}
+
+data "aws_eks_cluster_auth" "eks_cluster_auth" {
+  depends_on = [null_resource.wait_for_cluster]
+  name       = module.eks.cluster_name
+}
+
+locals {
+  kubeconfig_yaml = templatefile("${path.module}/kubeconfig.tpl", {
+    cluster_name = data.aws_eks_cluster.eks_cluster.name
+    endpoint     = data.aws_eks_cluster.eks_cluster.endpoint
+    cert_data    = data.aws_eks_cluster.eks_cluster.certificate_authority[0].data
+    token        = data.aws_eks_cluster_auth.eks_cluster_auth.token
+  })
+}
+
+# Write the kubeconfig to a file
+resource "local_file" "kubeconfig" {
+  content  = local.kubeconfig_yaml
+  filename = "${path.module}/kubeconfig.yaml"
+}
+
 #data "aws_eks_cluster" "eks_cluster" {
 #  count = module.eks.cluster_name != null && module.eks.cluster_name != "" ? 1 : 0
 #  name       = module.eks.cluster_name != null && module.eks.cluster_name != "" ? module.eks.cluster_name : "dummy"
