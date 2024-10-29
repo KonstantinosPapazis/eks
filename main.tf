@@ -16,9 +16,9 @@ module "eks" {
     vpc-cni                = {}
   }
 
-  vpc_id                   = "vpc-0892ffd96622d719f"
-  subnet_ids               = ["subnet-0777df0778d39f450", "subnet-04838a3d822d7c4cb", "subnet-0697c82dad7ac77e7"]
-  control_plane_subnet_ids = ["subnet-0777df0778d39f450", "subnet-04838a3d822d7c4cb", "subnet-0697c82dad7ac77e7"]
+  vpc_id                   = data.aws_vpc.selected.id #"vpc-0892ffd96622d719f"
+  subnet_ids               = data.aws_subnets.vpc_subnets.ids#["subnet-0777df0778d39f450", "subnet-04838a3d822d7c4cb", "subnet-0697c82dad7ac77e7"]
+  control_plane_subnet_ids = data.aws_subnets.vpc_subnets.ids#["subnet-0777df0778d39f450", "subnet-04838a3d822d7c4cb", "subnet-0697c82dad7ac77e7"]
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {

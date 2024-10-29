@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.61"
+      version = "~> 5.0"
     }
     tls = {
       source  = "hashicorp/tls"
@@ -15,4 +15,8 @@ terraform {
       version = ">= 0.9"
     }
   }
+}
+
+provider "aws" {
+  region = var.region
 }
