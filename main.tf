@@ -4,7 +4,7 @@ module "eks" {
   #source = "git::https://github.com/KonstantinosPapazis/k8s-module.git?ref=v1.0.0"
   #version = "~> 20.0"
 
-  cluster_name    = "my-cluster2"
+  cluster_name    = "my-cluster3"
   cluster_version = "1.30"
 
   cluster_endpoint_public_access  = true
