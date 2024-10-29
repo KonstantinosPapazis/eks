@@ -63,7 +63,7 @@ jobs:
         run: echo "kubeconfig_path=${GITHUB_WORKSPACE}/kubeconfig.yaml" >> $GITHUB_ENV
 
       - name: Upload kubeconfig.yaml as an artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: kubeconfig
           path: ${{ env.kubeconfig_path }}
