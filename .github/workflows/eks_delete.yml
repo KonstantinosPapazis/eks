@@ -1,13 +1,10 @@
-# This is a basic workflow to help you get started with Actions
-
-name: Delete EKS Cluster
+name: Destroy EKS Cluster
 
 on:
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy:
+  destroy:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,20 +23,29 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      #- name: Configure AWS Credentials
-      #  env:
-      #    AWS_ACCESS_KEY_ID: "AWS_ACCESS_KEY_ID"
-      #    AWS_SECRET_ACCESS_KEY: "AWS_SECRET_ACCESS_KEY"
-      #  run: |
-      #    aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
-      #    aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
-      #    aws configure set region "us-east-1"
+      - name: Restore Terraform state from cache
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .terraform
+            terraform.tfstate
+          key: terraform-state-${{ github.ref }}
 
       - name: Initialize Terraform
         run: terraform init
 
-      - name: Plan Terraform
-        run: terraform plan - destroy
+      - name: Plan Terraform Destroy
+        run: terraform plan -destroy
 
-      - name: Apply Terraform
+      - name: Destroy Terraform
         run: terraform destroy -auto-approve
+
+      - name: Cache updated Terraform state
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache@v3
+        with:
+          path: |
+            .terraform
+            terraform.tfstate
+          key: terraform-state-${{ github.ref }}
