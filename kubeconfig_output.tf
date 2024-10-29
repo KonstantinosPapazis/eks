@@ -37,6 +37,10 @@ KUBECONFIG
   )
 }
 
+#output "kubeconfig" {
+#  value = local.create ? local.kubes : null
+#}
+
 output "kubeconfig" {
-  value = local.create ? local.kubes : null
+  value = local.kubes
 }
