@@ -59,19 +59,3 @@ jobs:
         with:
           name: kubeconfig
           path: ${{ env.kubeconfig_path }}
-
-      - name: Encode kubeconfig as base64
-        run: echo "KUBECONFIG_CONTENT=$(base64 kubeconfig.yaml)" >> $GITHUB_ENV
-
-      - name: Save kubeconfig as secret
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.actions.createOrUpdateSecretForRepo({
-              owner: 'KonstantinosPapazis',
-              repo: 'deployments',
-              secret_name: 'KUBECONFIG_BASE64',
-              secret_value: process.env.KUBECONFIG_CONTENT,
-            })
-          secrets: PAT_FOR_SECRET_MANAGEMENT
-
