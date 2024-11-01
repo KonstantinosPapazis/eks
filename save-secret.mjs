@@ -2,9 +2,10 @@ import { Octokit } from '@octokit/rest';
 import * as sodium from 'libsodium-wrappers';
 
 (async () => {
+    // Wait for sodium to be ready
     await sodium.ready;
-    const octokit = new Octokit({ auth: process.env.PAT_FOR_SECRET_MANAGEMENT });
 
+    const octokit = new Octokit({ auth: process.env.PAT_FOR_SECRET_MANAGEMENT });
     const owner = 'KonstantinosPapazis';
     const repo = 'deployments';
     const secretName = 'KUBECONFIG_BASE64';
@@ -16,7 +17,7 @@ import * as sodium from 'libsodium-wrappers';
     // Encrypt the secret value
     const messageBytes = Buffer.from(secretValue);
     const keyBytes = Buffer.from(key, 'base64');
-    const encryptedBytes = sodium.crypto_box_seal(messageBytes, keyBytes);
+    const encryptedBytes = sodium.crypto_box_seal(messageBytes, keyBytes); // Proper encryption method
     const encryptedValue = Buffer.from(encryptedBytes).toString('base64');
 
     // Store the encrypted secret
