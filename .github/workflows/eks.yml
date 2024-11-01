@@ -61,7 +61,7 @@ jobs:
           path: ${{ env.kubeconfig_path }}
 
       - name: Encode kubeconfig as base64
-        run: echo "KUBECONFIG_CONTENT=$(base64 kubeconfig.yaml)" >> $GITHUB_ENV
+        run: echo "KUBECONFIG_CONTENT=$(base64 -w 0 kubeconfig.yaml)" >> $GITHUB_ENV
 
       - name: Save kubeconfig as secret
         uses: actions/github-script@v6
