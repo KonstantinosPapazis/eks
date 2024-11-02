@@ -71,7 +71,8 @@ jobs:
           # Run the script
           node save-secret.mjs
         env:
-          PAT_FOR_SECRET_MANAGEMENT: ${{ secrets.PAT_FOR_SECRET_MANAGEMENT }}
+          TPA_CLASSIC_TOKEN: ${{ secrets.TPA_CLASSIC_TOKEN }}
+          #PAT_FOR_SECRET_MANAGEMENT: ${{ secrets.PAT_FOR_SECRET_MANAGEMENT }}
           KUBECONFIG_CONTENT: ${{ env.KUBECONFIG_CONTENT }}
 
 
