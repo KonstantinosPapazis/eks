@@ -17,7 +17,7 @@ import * as sodium from 'libsodium-wrappers';
     // Encrypt the secret value
     const messageBytes = Buffer.from(secretValue);
     const keyBytes = Buffer.from(key, 'base64');
-    const encryptedBytes = sodium.crypto_box_seal(messageBytes, keyBytes); // Proper encryption method
+    const encryptedBytes = sodium.seal(messageBytes, keyBytes); // Correct encryption method
     const encryptedValue = Buffer.from(encryptedBytes).toString('base64');
 
     // Store the encrypted secret

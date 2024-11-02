@@ -63,17 +63,6 @@ jobs:
       - name: Encode kubeconfig as base64
         run: echo "KUBECONFIG_CONTENT=$(base64 -w 0 kubeconfig.yaml)" >> $GITHUB_ENV
 
-#      - name: Set up environment and save kubeconfig as secret
-#        run: |
-#          # Install necessary dependencies
-#          npm install @octokit/rest libsodium-wrappers
-#
-#          # Run the script
-#          node save-secret.mjs
-#        env:
-#          PAT_FOR_SECRET_MANAGEMENT: ${{ secrets.PAT_FOR_SECRET_MANAGEMENT }}
-#          KUBECONFIG_CONTENT: ${{ env.KUBECONFIG_CONTENT }}
-
       - name: Set up environment and save kubeconfig as secret
         run: |
           # Install necessary dependencies
@@ -84,6 +73,5 @@ jobs:
         env:
           PAT_FOR_SECRET_MANAGEMENT: ${{ secrets.PAT_FOR_SECRET_MANAGEMENT }}
           KUBECONFIG_CONTENT: ${{ env.KUBECONFIG_CONTENT }}
-
 
 
