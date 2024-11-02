@@ -17,7 +17,10 @@ import * as sodium from 'libsodium-wrappers';
     // Encrypt the secret value
     const messageBytes = Buffer.from(secretValue);
     const keyBytes = Buffer.from(key, 'base64');
-    const encryptedBytes = sodium.crypto_box_seal(messageBytes, keyBytes); // Try encryption here
+
+    // Encrypt using sodium.crypto_box_easy as a workaround
+    const nonce = sodium.randombytes_buf(sodium.crypto_box_NONCEBYTES);
+    const encryptedBytes = sodium.crypto_box_easy(messageBytes, nonce, keyBytes);
     const encryptedValue = Buffer.from(encryptedBytes).toString('base64');
 
     // Store the encrypted secret
