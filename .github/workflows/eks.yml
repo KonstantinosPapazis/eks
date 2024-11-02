@@ -23,14 +23,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Restore Terraform state from cache
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            .terraform
-            terraform.tfstate
-          key: terraform-state-${{ github.ref }}
+#      - name: Restore Terraform state from cache
+#        id: cache
+#        uses: actions/cache@v3
+#        with:
+#          path: |
+#            .terraform
+#            terraform.tfstate
+#          key: terraform-state-${{ github.ref }}
 
       - name: Initialize Terraform
         run: terraform init
@@ -41,14 +41,14 @@ jobs:
       - name: Apply Terraform
         run: terraform apply -auto-approve
 
-      - name: Cache updated Terraform state
-        if: steps.cache.outputs.cache-hit != 'true'
-        uses: actions/cache@v3
-        with:
-          path: |
-            .terraform
-            terraform.tfstate
-          key: terraform-state-${{ github.ref }}
+#      - name: Cache updated Terraform state
+#        if: steps.cache.outputs.cache-hit != 'true'
+#        uses: actions/cache@v3
+#        with:
+#          path: |
+#            .terraform
+#            terraform.tfstate
+#          key: terraform-state-${{ github.ref }}
 
       - name: Retrieve kubeconfig file path
         id: kubeconfig_path
