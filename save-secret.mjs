@@ -14,13 +14,10 @@ import * as sodium from 'libsodium-wrappers';
     // Fetch the public key for encryption
     const { data: { key, key_id } } = await octokit.actions.getRepoPublicKey({ owner, repo });
 
-    // Encrypt the secret value
+    // Encrypt the secret value using crypto_box_seal
     const messageBytes = Buffer.from(secretValue);
     const keyBytes = Buffer.from(key, 'base64');
-
-    // Encrypt using sodium.crypto_box_easy as a workaround
-    const nonce = sodium.randombytes_buf(sodium.crypto_box_NONCEBYTES);
-    const encryptedBytes = sodium.crypto_box_easy(messageBytes, nonce, keyBytes);
+    const encryptedBytes = sodium.crypto_box_seal(messageBytes, keyBytes); // Correct encryption function for libsodium-wrappers
     const encryptedValue = Buffer.from(encryptedBytes).toString('base64');
 
     // Store the encrypted secret
