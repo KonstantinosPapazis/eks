@@ -5,7 +5,7 @@ module "eks" {
   #version = "~> 20.0"
 
   cluster_name    = "my-cluster"
-  cluster_version = "1.30"
+  cluster_version = "1.31"
 
   cluster_endpoint_public_access  = true
 
@@ -27,6 +27,16 @@ module "eks" {
 
   eks_managed_node_groups = {
     example = {
+      # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
+      ami_type       = "AL2023_x86_64_STANDARD"
+      instance_types = ["t3.medium"]
+
+      min_size     = 2
+      max_size     = 3
+      desired_size = 2
+    }
+
+    kostas = {
       # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
       ami_type       = "AL2023_x86_64_STANDARD"
       instance_types = ["t3.medium"]
